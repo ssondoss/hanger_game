@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  </head>
+  <style>
+    .letter {
+      height: 50px;
+      width: 50px;
+      background-color: #a1d2df;
+      border-radius: 50%;
+      font-weight: 900;
+    }
+    .letter:hover {
+      background-color: #91beca;
+    }
+
+    .rope {
+      width: 3px;
+      border-radius: 30px;
+      height: 70px;
+      visibility: hidden;
+
+      background-color: black;
+    }
+    .circle {
+      height: 100px;
+      visibility: hidden;
+      position: relative;
+      width: 100px;
+      border: 3px solid #000000;
+      border-radius: 50%;
+    }
+    .body {
+      width: 3px;
+      visibility: hidden;
+
+      border-radius: 30px;
+      height: 142px;
+      background-color: black;
+    }
+    .hand1 {
+      position: absolute;
+      background-color: #000000;
+      width: 110px;
+      visibility: hidden;
+
+      height: 2px;
+      top: 54%;
+      left: 29.3%;
+      transform: rotate(150deg);
+    }
+    .hand2 {
+      visibility: hidden;
+
+      position: absolute;
+      background-color: #000000;
+      width: 110px;
+      height: 2px;
+      top: 54%;
+      left: 48.4%;
+      transform: rotate(30deg);
+    }
+
+    .leg1 {
+      position: absolute;
+      background-color: #000000;
+      width: 110px;
+      height: 2px;
+      top: 82.8%;
+      left: 29.3%;
+      visibility: hidden;
+
+      transform: rotate(150deg);
+    }
+    .leg2 {
+      position: absolute;
+      background-color: #000000;
+      width: 110px;
+      height: 2px;
+      top: 82.5%;
+      visibility: hidden;
+      left: 48.4%;
+      transform: rotate(30deg);
+    }
+    .border-main {
+      border: 3px solid #a1d2df;
+    }
+    .bg-main {
+      background-color: #a1d2df;
+      position: relative;
+      height: 410px;
+    }
+    .eye1 {
+      height: 8px;
+      border: 1px solid #000;
+      width: 8px;
+      top: 37%;
+      left: 25%;
+      border-radius: 50%;
+      position: absolute;
+    }
+    .eye2 {
+      height: 8px;
+      border: 1px solid #000;
+      width: 8px;
+      top: 37%;
+      right: 25%;
+      border-radius: 50%;
+      position: absolute;
+    }
+    .mouth {
+      width: 30px;
+      position: absolute;
+      top: 70%;
+      left: 35%;
+      right: 35%;
+      height: 4px;
+      background-color: #000;
+    }
+    @media (max-width: 769px) {
+      .bg-main {
+        width: 495px !important;
+      }
+    }
+    @media (max-width: 1025px) and (min-width: 1023px) {
+      .bg-main {
+        width: 480px !important;
+      }
+    }
+    @media (max-width: 415px) and (min-width: 377px) {
+      .hand1 {
+        left: 21.8%;
+      }
+      .leg1 {
+        left: 21.8%;
+      }
+    }
+    @media (max-width: 376px) and (min-width: 322px) {
+      .hand1 {
+        left: 17.8%;
+      }
+      .leg1 {
+        left: 17.8%;
+      }
+    }
+    @media (max-width: 321px) {
+      .hand1 {
+        left: 12.6%;
+      }
+      .leg1 {
+        left: 12.6%;
+      }
+    }
+  </style>
+  <body>
+    <div class="mx-4">
+      <div class="mx-0 h1 text-center my-5">
+        level <span id="level">1</span>
+      </div>
+      <div class="row mx-0">
+        <div class="col-xl-7 my-auto px-md-5 px-0">
+          <div class="row mx-0 text-center justify-content-center">
+            <div
+              class="letter text-center d-flex m-1"
+              id="a"
+              onclick="solve('a')"
+            >
+              <span class="m-auto">a</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="b"
+              onclick="solve('b')"
+            >
+              <span class="m-auto">b</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="c"
+              onclick="solve('c')"
+            >
+              <span class="m-auto">c</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="d"
+              onclick="solve('d')"
+            >
+              <span class="m-auto">d</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="e"
+              onclick="solve('e')"
+            >
+              <span class="m-auto">e</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="f"
+              onclick="solve('f')"
+            >
+              <span class="m-auto">f</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="g"
+              onclick="solve('g')"
+            >
+              <span class="m-auto">g</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="h"
+              onclick="solve('h')"
+            >
+              <span class="m-auto">h</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="i"
+              onclick="solve('i')"
+            >
+              <span class="m-auto">i</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="j"
+              onclick="solve('j')"
+            >
+              <span class="m-auto">j</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="k"
+              onclick="solve('k')"
+            >
+              <span class="m-auto">k</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="l"
+              onclick="solve('l')"
+            >
+              <span class="m-auto">l</span>
+            </div>
+
+            <div
+              class="letter text-center d-flex m-1"
+              id="m"
+              onclick="solve('m')"
+            >
+              <span class="m-auto">m</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              id="n"
+              onclick="solve('n')"
+            >
+              <span class="m-auto">n</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('o')"
+              id="o"
+            >
+              <span class="m-auto">o</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('p')"
+              id="p"
+            >
+              <span class="m-auto">p</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('q')"
+              id="q"
+            >
+              <span class="m-auto">q</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('r')"
+              id="r"
+            >
+              <span class="m-auto">r</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('s')"
+              id="s"
+            >
+              <span class="m-auto">s</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('t')"
+              id="t"
+            >
+              <span class="m-auto">t</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('u')"
+              id="u"
+            >
+              <span class="m-auto">u</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('v')"
+              id="v"
+            >
+              <span class="m-auto">v</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('w')"
+              id="w"
+            >
+              <span class="m-auto">w</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('x')"
+              id="x"
+            >
+              <span class="m-auto">x</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('y')"
+              id="y"
+            >
+              <span class="m-auto">y</span>
+            </div>
+            <div
+              class="letter text-center d-flex m-1"
+              onclick="solve('z')"
+              id="z"
+            >
+              <span class="m-auto">z</span>
+            </div>
+          </div>
+
+          <div class="words row mx-0 mt-5 text-center justify-content-center">
+            <div class="h4">
+              description :
+              <span id="desc" class="font-weight-bold"></span>
+            </div>
+          </div>
+          <div
+            id="blanks_container"
+            class="row mx-0 text-center justify-content-center"
+          ></div>
+        </div>
+        <div class="col-xl-4 mx-auto border mt-5 pb-3 bg-main">
+          <div class="rope mx-auto hanger" id="rope"></div>
+          <div class="circle mx-auto hanger" id="head">
+            <div class="eye1"></div>
+            <div class="eye2"></div>
+            <div class="mouth"></div>
+          </div>
+          <div class="body mx-auto hanger" id="body"></div>
+          <div class="hand1 hanger" id="hand1"></div>
+          <div class="hand2 hanger" id="hand2"></div>
+          <div class="leg1 hanger" id="leg1"></div>
+          <div class="leg2 hanger" id="leg2"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let descriptions = [
+        "country",
+        "singer",
+        "language",
+        "movie",
+        "planet",
+        "application",
+        "tv show",
+        "scientist",
+        "writer",
+        "actor",
+        "brand",
+        "pandemic",
+      ];
+      let words = [
+        "jordan",
+        "selenagomez",
+        "arabic",
+        "abeautifulmind",
+        "neptune",
+        "instagram",
+        "friends",
+        "charlesdarwin",
+        "joannekathleenrowling",
+        "matthew mcconaughey",
+        "adidas",
+        "spanishflu ",
+      ];
+      var blanks = '<div class="h1 mt-5 mx-4"> ___</div>';
+      var arrayOfBlanks = [];
+      var level = 1;
+
+      document.getElementById("desc").innerHTML = descriptions[level - 1];
+
+      for (let j = 0; j < words[level - 1].length; j++) {
+        arrayOfBlanks[j] = '<div class="h3 mt-5 mx-4"> ___</div>';
+        document.getElementById("blanks_container").innerHTML +=
+          arrayOfBlanks[j];
+      }
+      var errorCount = 0;
+      numberOfLetters = 0;
+
+      function solve(letter) {
+        document.getElementById("blanks_container").innerHTML = " ";
+        foundLetter = false;
+
+        for (let i = 0; i < words[level - 1].length; i++) {
+          if (words[level - 1].charAt(i) === letter) {
+            arrayOfBlanks[i] = '<div class="h1 mt-5 mx-4">' + letter + "</div>";
+            foundLetter = true;
+            ++numberOfLetters;
+          }
+
+          document.getElementById("blanks_container").innerHTML +=
+            arrayOfBlanks[i];
+        }
+        if (foundLetter === false) ++errorCount;
+        if (errorCount === 1) {
+          document.getElementById("rope").style.visibility = "visible";
+        }
+        if (errorCount === 2) {
+          document.getElementById("head").style.visibility = "visible";
+        }
+        if (errorCount === 3) {
+          document.getElementById("body").style.visibility = "visible";
+        }
+        if (errorCount === 4) {
+          document.getElementById("hand1").style.visibility = "visible";
+        }
+        if (errorCount === 5) {
+          document.getElementById("hand2").style.visibility = "visible";
+        }
+        if (errorCount === 6) {
+          document.getElementById("leg1").style.visibility = "visible";
+        }
+        if (errorCount === 7) {
+          document.getElementById("leg2").style.visibility = "visible";
+          setTimeout(() => {
+            Swal.fire({
+              position: "top-center",
+              icon: "error",
+              title: "Game Over",
+              showConfirmButton: true,
+            }).then((result) => {
+              if (result.isConfirmed) window.location.reload();
+            });
+          }, 200);
+        }
+        if (numberOfLetters === words[level - 1].length && errorCount < 7) {
+          setTimeout(() => {
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "You won",
+              showConfirmButton: true,
+            });
+            for (let el of document.querySelectorAll(".letter"))
+              el.style.visibility = "visible";
+            for (let el of document.querySelectorAll(".hanger"))
+              el.style.visibility = "hidden";
+          }, 300);
+
+          ++level;
+          document.getElementById("level").innerHTML = level;
+
+          document.getElementById("desc").innerHTML = descriptions[level - 1];
+          document.getElementById("blanks_container").innerHTML = "";
+          for (let j = 0; j < words[level - 1].length; j++) {
+            arrayOfBlanks[j] = '<div class="h1 mt-5 mx-4"> ___</div>';
+            document.getElementById("blanks_container").innerHTML +=
+              arrayOfBlanks[j];
+          }
+          errorCount = 0;
+          numberOfLetters = 0;
+        }
+        document.getElementById(letter).style.visibility = "hidden";
+      }
+    </script>
+
+    <footer>
+      <div
+        class="bg-light text-center py-3 justify-content-center w-100 border-top"
+        style="position: fixed; bottom: 0"
+      >
+        Copyright © 2021 by sondos marashdeh. All Rights Reserved.
+      </div>
+    </footer>
+  </body>
+</html>
